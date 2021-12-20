@@ -166,3 +166,73 @@ body {
     }
   }
 }
+
+.addProjectContainer {
+  position: absolute;
+  background-color: transparent;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  top: 15rem;
+  z-index: 100;
+
+  .littleSquare {
+    background-color: #e2e2e2;
+    width: 45rem;
+    height: 50rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+
+    .formTitle {
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .formAddTask {
+      height: 15rem;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
+    label {
+      margin: 2rem;
+    }
+
+    .fa-check-circle {
+      color: #6be689;
+      margin: 2rem;
+      cursor: pointer;
+    }
+
+    .taskName {
+      margin: 2rem;
+    }
+
+    .buttonContainer {
+      display: flex;
+    }
+
+    .confirmAdd, .cancel {
+      border: 1px solid black;
+      border-radius: 1rem;
+      padding: 1rem;
+      width: 10rem;
+      text-align: center;
+      margin: auto;
+      cursor: pointer;
+    }
+
+    .cancel {
+      color: #e24e58;
+    }
+
+    .errorMessage {
+      color: #e24e58;
+      padding: 1rem;
+      text-align: center;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import "./scss/style.scss";
-// @ts-ignore
-import {CreateGroup} from "./ts/CreateGroup.ts";
+import {CreateGroup} from "./ts/CreateGroup";
 
 CreateGroup.createGroupContainer();
 CreateGroup.createAddProject();
+CreateGroup.addProject("projet 1", ["faire un truc", "faire autre chose"]);

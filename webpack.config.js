@@ -19,6 +19,9 @@ module.exports = (env, argv) => {
         keep: /index\.html|index\.php/,
       }
     },
+    resolve: {
+      extensions: [ '.ts', '.js' ],
+    },
 
     // Push de la config prod ou dev
     ...config
