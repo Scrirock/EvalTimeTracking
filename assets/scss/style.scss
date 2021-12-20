@@ -2,6 +2,20 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #efefef;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #989898;
+    border-radius: 10px;
+    border: 0 solid #ffffff;
+  }
 }
 
 html {
@@ -10,4 +24,145 @@ html {
 
 body {
   width: 100%;
+  font-size: 2rem;
+}
+
+.groupContainer {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 2rem;
+
+  .group {
+    border: 1px solid black;
+    margin: 1.5rem;
+    padding: 1.5rem;
+    background-color: #e2e2e2;
+    border-radius: 1rem;
+    min-width: 400px;
+    min-height: 350px;
+
+    &:first-child {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      transition-duration: .4s;
+      cursor: pointer;
+
+      i {
+        font-size: 10rem;
+        margin-bottom: 1rem;
+      }
+
+      &:hover {
+        border-radius: 1.5rem;
+        background-color: #e2e2e2;
+        -webkit-box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(73,73,73,0);
+        box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(73,73,73,0);
+
+        p{
+          font-size: 2.2rem;
+          transition-duration: .4s;
+        }
+
+        i {
+          font-size: 10.5rem;
+          transition-duration: .4s;
+        }
+      }
+    }
+  }
+
+  .headline {
+    display: flex;
+    justify-content: space-between;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+
+    .fa-eye {
+      color: #6be689;
+      cursor: pointer;
+    }
+
+    .title {
+      font-size: 2.5rem;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .fa-trash-alt {
+      color: #e24e58;
+      cursor: pointer;
+    }
+  }
+
+  .content {
+    display: flex;
+  }
+
+  .info {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+
+    div{
+      .time {
+        color: #808080;
+      }
+
+      .fa-clock, .fa-calendar-alt {
+        color: #a1c9ff;
+      }
+    }
+
+  }
+
+  .taskContainer {
+    margin: 1rem;
+    border: 1px solid black;
+    padding: 2rem;
+    background-color: #efefef;
+    border-radius: 1rem;
+    width: 80%;
+    min-height: 255px;
+
+    .fixHeight {
+      height: 140px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      scrollbar-width: auto;
+      scrollbar-color: #989898 #efefef;
+    }
+
+    .taskLine {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+
+      .fa-stopwatch {
+        color: #49cd6d;
+        margin-right: 1rem;
+        cursor: pointer;
+      }
+    }
+
+    .addTask {
+      padding: 1rem;
+      border: 1px solid black;
+      margin-top: 2rem;
+      border-radius: 1rem;
+      transition-duration: .4s;
+      background-color: #efefef;
+      cursor: pointer;
+      text-align: center;
+
+      &:hover {
+        border-radius: 1.5rem;
+        background-color: #e2e2e2;
+        font-size: 2.1rem;
+        -webkit-box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(73,73,73,0);
+        box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(73,73,73,0);
+      }
+    }
+  }
 }
