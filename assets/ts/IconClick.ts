@@ -1,3 +1,5 @@
+import {ChangePage} from "./ChangePage";
+
 export class IconClick {
 
     static deleteIcon(element: HTMLElement): void {
@@ -15,13 +17,7 @@ export class IconClick {
 
     static eyeIcon(element: HTMLElement): void {
         element.addEventListener("click", ()=>{
-            let container: HTMLElement = <HTMLElement>element.parentElement;
-            if (container) {
-                container = <HTMLElement>container.parentElement
-            }
-            if (container) {
-
-            }
+            ChangePage.detailedProject(<string>element.nextElementSibling?.nextElementSibling?.innerHTML)
         })
     }
 }

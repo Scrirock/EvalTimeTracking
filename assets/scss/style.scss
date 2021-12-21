@@ -90,10 +90,6 @@ body {
       font-weight: bold;
     }
 
-    .fa-trash-alt {
-      color: #e24e58;
-      cursor: pointer;
-    }
   }
 
   .content {
@@ -167,6 +163,11 @@ body {
   }
 }
 
+.fa-trash-alt {
+  color: #e24e58;
+  cursor: pointer;
+}
+
 .addProjectContainer {
   position: absolute;
   background-color: transparent;
@@ -233,6 +234,64 @@ body {
       color: #e24e58;
       padding: 1rem;
       text-align: center;
+    }
+  }
+}
+
+.projectContainer {
+  .hour {
+    position: fixed;
+    top: 2.5rem;
+    right: 2.5rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: #e2e2e2;
+    .totalHour {
+      color: #5b9bcf;
+    }
+  }
+
+  .projectTitle {
+    margin: 3rem;
+    text-decoration: underline;
+    text-align: center;
+    font-size: 5rem;
+  }
+
+  .taskContainer {
+    margin: 2rem;
+
+    .taskLine {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      font-size: 3rem;
+      padding: 1.5rem;
+
+      .taskName {
+        width: 25rem;
+      }
+
+      i {
+        margin-right: 2rem;
+      }
+
+      .littleParagraph {
+        font-size: 2rem;
+        color: #989898;
+        font-style: italic;
+      }
+
+      .fa-edit {
+        color: #49cd6d;
+        cursor: pointer;
+      }
+
+      .fa-calendar-alt, .fa-stopwatch {
+        color: #a1c9ff;
+      }
+
     }
   }
 }

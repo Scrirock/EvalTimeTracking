@@ -129,7 +129,7 @@ export class CreateInput {
         cancel.innerHTML = "Annuler";
 
         cancel.addEventListener("click", ()=>{
-            groupContainer.style.filter = "blur(0)";
+            if (groupContainer) groupContainer.style.filter = "blur(0)";
             container.remove();
         })
 
@@ -139,7 +139,7 @@ export class CreateInput {
                 for (let i: number = 0; i < elementOfTaskContainer.length; i++) {
                     CreateGroup.addTask(elementOfTaskContainer[i].innerHTML, clickedButton)
                 }
-                groupContainer.style.filter = "blur(0)";
+                if (groupContainer) groupContainer.style.filter = "blur(0)";
                 container.remove();
             }
             else {

@@ -26,6 +26,7 @@ export class CreateGroup {
         let eyeIcon: HTMLElement = Utils.createCreate("i", "far fa-eye", headlineDiv);
         eyeIcon.title = "Voir le projet en détail";
         eyeIcon.dataset.project = title;
+        IconClick.eyeIcon(eyeIcon);
 
         let projectTitle: HTMLElement = Utils.createCreate("p", "projectTitle", headlineDiv);
         projectTitle.innerHTML = title;
