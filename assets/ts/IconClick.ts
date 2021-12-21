@@ -1,4 +1,5 @@
 import {ChangePage} from "./ChangePage";
+import {Utils} from "./Utils";
 
 export class IconClick {
 
@@ -19,5 +20,46 @@ export class IconClick {
         element.addEventListener("click", ()=>{
             ChangePage.detailedProject(<string>element.nextElementSibling?.nextElementSibling?.innerHTML)
         })
+    }
+
+    static deleteTaskIcon(element: HTMLElement) {
+        element.addEventListener("click", ()=>{
+            element.parentElement?.parentElement?.remove();
+            this.reloadSave();
+        })
+    }
+
+    static editTaskIcon(element: HTMLElement) {
+        element.addEventListener("click", ()=>{
+            let task: HTMLElement = <HTMLElement>element.parentElement?.previousElementSibling
+                                                ?.previousElementSibling
+                                                ?.previousElementSibling;
+
+
+
+            let input: HTMLInputElement = document.createElement("input");
+            input.className = "editInput"
+            input.value = task.innerHTML;
+            task.parentElement?.prepend(input);
+            task.style.display = "none";
+
+            input.addEventListener("keyup", (e)=>{
+                if (e.key === "Enter") {
+                    task.innerHTML = input.value;
+                    task.style.display = "initial";
+                    input.remove();
+                    this.reloadSave();
+                }
+            })
+        });
+    }
+
+    static reloadSave(){
+        let taskName = document.querySelectorAll(".taskName");
+        let taskArray: string[] = [];
+        for (let i: number = 0; i < taskName.length; i++) {
+            taskArray.push(taskName[i].innerHTML);
+        }
+        Utils.saveProject(<string>document.querySelector(".projectTitle")?.innerHTML, taskArray);
     }
 }

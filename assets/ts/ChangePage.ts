@@ -1,4 +1,5 @@
 import {Utils} from "./Utils";
+import {IconClick} from "./IconClick";
 
 export class ChangePage {
 
@@ -39,8 +40,10 @@ export class ChangePage {
             text2.innerHTML = "15h";
 
             let div3: HTMLElement = Utils.createCreate("div", "none", taskLine);
-            Utils.createCreate("i", "far fa-edit", div3);
-            Utils.createCreate("i", "far fa-trash-alt", div3);
+            let edit: HTMLElement = Utils.createCreate("i", "far fa-edit", div3);
+            IconClick.editTaskIcon(edit);
+            let trash: HTMLElement = Utils.createCreate("i", "far fa-trash-alt", div3);
+            IconClick.deleteTaskIcon(trash);
 
         }
     }
