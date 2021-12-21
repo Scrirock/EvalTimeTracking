@@ -87,7 +87,7 @@ export class CreateInput {
         })
     }
 
-    static createTaskInput(): void{
+    static createTaskInput(clickedButton: HTMLElement): void{
         let groupContainer: HTMLDivElement = <HTMLDivElement>document.querySelector(".groupContainer")
         if (groupContainer){
             groupContainer.style.filter = "blur(4px)";
@@ -137,7 +137,7 @@ export class CreateInput {
             if (formAddTask.children.length > 0) {
                 let elementOfTaskContainer: HTMLCollection = formAddTask.children;
                 for (let i: number = 0; i < elementOfTaskContainer.length; i++) {
-                    CreateGroup.addTask(elementOfTaskContainer[i].innerHTML)
+                    CreateGroup.addTask(elementOfTaskContainer[i].innerHTML, clickedButton)
                 }
                 groupContainer.style.filter = "blur(0)";
                 container.remove();

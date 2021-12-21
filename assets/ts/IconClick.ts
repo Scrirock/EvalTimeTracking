@@ -7,6 +7,7 @@ export class IconClick {
                 container = <HTMLElement>container.parentElement
             }
             if (container) {
+                localStorage.removeItem(<string>element.dataset.project)
                 container.remove()
             }
         })

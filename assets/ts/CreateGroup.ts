@@ -3,7 +3,6 @@ import {Utils} from "./Utils";
 import {IconClick} from "./IconClick";
 
 let groupContainer: HTMLElement;
-let fixHeightDiv: HTMLElement;
 
 export class CreateGroup {
 
@@ -25,13 +24,15 @@ export class CreateGroup {
         let addProjectDiv: HTMLElement = Utils.createCreate("div", "group", groupContainer);
         let headlineDiv: HTMLElement = Utils.createCreate("div", "headline", addProjectDiv);
         let eyeIcon: HTMLElement = Utils.createCreate("i", "far fa-eye", headlineDiv);
-        eyeIcon.title = "Voir le projet en détail"
+        eyeIcon.title = "Voir le projet en détail";
+        eyeIcon.dataset.project = title;
 
-        let projectTitle: HTMLElement = Utils.createCreate("p", "projectTitle", headlineDiv)
+        let projectTitle: HTMLElement = Utils.createCreate("p", "projectTitle", headlineDiv);
         projectTitle.innerHTML = title;
 
         let trashIcon: HTMLElement = Utils.createCreate("i", "far fa-trash-alt", headlineDiv);
-        trashIcon.title = "Supprimer le projet"
+        trashIcon.title = "Supprimer le projet";
+        trashIcon.dataset.project = title;
         let contentDiv: HTMLElement = Utils.createCreate("div", "content", addProjectDiv);
         let infoDiv: HTMLElement = Utils.createCreate("div", "info", contentDiv);
         IconClick.deleteIcon(trashIcon);
@@ -51,28 +52,47 @@ export class CreateGroup {
         calendarTime.dataset.type = "calendar";
 
         let taskContainer: HTMLElement = Utils.createCreate("div", "taskContainer", contentDiv);
-        fixHeightDiv = Utils.createCreate("div", "fixHeight", taskContainer);
+        let fixHeight: HTMLElement = Utils.createCreate("div", "fixHeight", taskContainer);
+        fixHeight.dataset.project = title;
 
         let addTaskButton: HTMLElement = Utils.createCreate("div", "addTask", taskContainer);
         addTaskButton.innerHTML = "Ajouter une tâche";
         addTaskButton.dataset.project = title;
 
-        addTaskButton.addEventListener("click", CreateInput.createTaskInput)
+        addTaskButton.addEventListener("click", ()=>{
+            CreateInput.createTaskInput(addTaskButton)
+        });
 
         if (task !== null) {
             for (let i: number = 0; i < task.length; i++) {
-                this.addTask(task[i]);
+                this.addTask(task[i], addTaskButton);
             }
         }
     }
 
-    static addTask(taskName: string): void {
-        let taskLine = Utils.createCreate("div", "taskLine", fixHeightDiv);
+    static addTask(taskName: string, clickedButton: HTMLElement): void {
+        let allFixHeight: NodeListOf<HTMLElement> = document.querySelectorAll(".fixHeight");
 
-        let task = Utils.createCreate("p", "task", taskLine);
-        task.innerHTML = taskName;
+        for (let i: number = 0; i < allFixHeight.length; i++) {
+            if (allFixHeight[i].dataset.project === clickedButton.dataset.project) {
+                let taskLine = Utils.createCreate("div", "taskLine", allFixHeight[i]);
 
-        let stopwatch: HTMLElement = Utils.createCreate("i", "fas fa-stopwatch", taskLine);
-        stopwatch.dataset.task = taskName;
+                let task = Utils.createCreate("p", "task", taskLine);
+                task.innerHTML = taskName;
+
+                let stopwatch: HTMLElement = Utils.createCreate("i", "fas fa-stopwatch", taskLine);
+                stopwatch.dataset.task = taskName;
+
+                if (allFixHeight[i].children) {
+                    let taskArray: string[] = [];
+                    for (let j: number = 0; j < allFixHeight[i].children.length; j++) {
+                        if (allFixHeight[i].children[0].children[0].tagName === "P") {
+                            taskArray.push(allFixHeight[i].children[j].children[0].innerHTML);
+                        }
+                    }
+                    Utils.saveProject(<string>clickedButton.dataset.project, taskArray);
+                }
+            }
+        }
     }
 }
