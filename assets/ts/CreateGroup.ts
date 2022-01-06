@@ -38,11 +38,16 @@ export class CreateGroup {
         let infoDiv: HTMLElement = Utils.createCreate("div", "info", contentDiv);
         IconClick.deleteIcon(trashIcon);
 
-        let clockDiv: HTMLElement =  Utils.createCreate("div", "clockDivv", infoDiv);
+        let clockDiv: HTMLElement =  Utils.createCreate("div", "clockDiv", infoDiv);
         let clockIcon: HTMLElement = Utils.createCreate("i", "far fa-clock", clockDiv);
         clockIcon.title = "Temps total d'heures sur le projet"
         let clockTime: HTMLElement = Utils.createCreate("p", "time", clockDiv);
-        clockTime.innerHTML = "0 heures"
+
+        let totalHour: number = 0;
+        for (let i: number = 0; i < JSON.parse(localStorage[title]).length; i++) {
+            totalHour += JSON.parse(localStorage[title])[i].time;
+        }
+        clockTime.innerHTML = Utils.formatDuration(totalHour);
         clockTime.dataset.type = "clock";
 
         let calendarDiv: HTMLElement =  Utils.createCreate("div", "calendarDiv", infoDiv);
@@ -65,35 +70,59 @@ export class CreateGroup {
         });
 
         if (task !== null) {
-            for (let i: number = 0; i < task.length; i++) {
-                this.addTask(task[i], addTaskButton);
-            }
+            this.addTask(task, addTaskButton, 0);
         }
     }
 
-    static addTask(taskName: string, clickedButton: HTMLElement): void {
+    static addTask(taskName: string[], clickedButton: HTMLElement, test: number): void {
         let allFixHeight: NodeListOf<HTMLElement> = document.querySelectorAll(".fixHeight");
+        let oldTask = document.querySelectorAll(".task");
+        let taskArray: string[] = [];
+        let timeTest:number[] = [];
 
         for (let i: number = 0; i < allFixHeight.length; i++) {
             if (allFixHeight[i].dataset.project === clickedButton.dataset.project) {
-                let taskLine = Utils.createCreate("div", "taskLine", allFixHeight[i]);
+                for (let ii:number = 0; ii < taskName.length; ii++){
+                    let taskLine = Utils.createCreate("div", "taskLine", allFixHeight[i]);
 
-                let task = Utils.createCreate("p", "task", taskLine);
-                task.innerHTML = taskName;
+                    let task = Utils.createCreate("p", "task", taskLine);
+                    task.innerHTML = taskName[ii];
 
-                let stopwatch: HTMLElement = Utils.createCreate("i", "fas fa-stopwatch", taskLine);
-                stopwatch.dataset.task = taskName;
-
-                if (allFixHeight[i].children) {
-                    let taskArray: string[] = [];
-                    for (let j: number = 0; j < allFixHeight[i].children.length; j++) {
-                        if (allFixHeight[i].children[0].children[0].tagName === "P") {
-                            taskArray.push(allFixHeight[i].children[j].children[0].innerHTML);
+                    if (localStorage !== null && localStorage.length > allFixHeight.length-1){
+                        for (let i: number = 0; i < JSON.parse(localStorage[<string>clickedButton.dataset.project]).length; i++) {
+                            let json = JSON.parse(localStorage[<string>clickedButton.dataset.project])[i];
+                            if (json.name === taskName[ii]) {
+                                timeTest.push(json.time);
+                            }
+                            else {
+                                for (let b: number = 0; b < oldTask.length; b++) {
+                                    if (json.name === oldTask[b].innerHTML) {
+                                        timeTest.push(json.time);
+                                    }
+                                }
+                            }
                         }
                     }
-                    Utils.saveProject(<string>clickedButton.dataset.project, taskArray);
+
+                    let stopwatch: HTMLElement = Utils.createCreate("i", "fas fa-stopwatch", taskLine);
+                    stopwatch.dataset.task = taskName[ii];
+                    Utils.stopwatchClick(stopwatch);
+
+                    if (allFixHeight[i].children && allFixHeight[i].children.length >= taskName.length) {
+                        for (let j: number = 0; j < allFixHeight[i].children.length; j++) {
+                            timeTest.length > j ? true : timeTest.push(0);
+                            if (allFixHeight[i].children[j].children[0].tagName === "P") {
+                                taskArray.push(JSON.parse(`{
+                                    "name": "${allFixHeight[i].children[j].children[0].innerHTML}",
+                                     "time": ${timeTest[j]} 
+                                }`));
+
+                            }
+                        }
+                    }
                 }
             }
         }
+        Utils.saveProject(<string>clickedButton.dataset.project, taskArray);
     }
 }

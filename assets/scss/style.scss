@@ -168,6 +168,10 @@ body {
   cursor: pointer;
 }
 
+.none{
+  width: 15%;
+}
+
 .addProjectContainer {
   position: absolute;
   background-color: transparent;
@@ -252,6 +256,17 @@ body {
     }
   }
 
+  .back {
+    position: fixed;
+    top: 2.5rem;
+    left: 2.5rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: #e2e2e2;
+    cursor: pointer;
+  }
+
   .projectTitle {
     margin: 3rem;
     text-decoration: underline;
@@ -260,7 +275,7 @@ body {
   }
 
   .taskContainer {
-    margin: 2rem;
+    margin: auto 2rem;
 
     .taskLine {
       display: flex;

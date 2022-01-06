@@ -60,6 +60,23 @@ export class IconClick {
         for (let i: number = 0; i < taskName.length; i++) {
             taskArray.push(taskName[i].innerHTML);
         }
-        Utils.saveProject(<string>document.querySelector(".projectTitle")?.innerHTML, taskArray);
+
+        let taskTime = document.querySelectorAll(".timeSave");
+        let timeArray: string[] = [];
+        for (let i: number = 0; i < taskTime.length; i++) {
+            timeArray.push(taskTime[i].innerHTML.substring(0, taskTime[i].innerHTML.length - 1));
+        }
+        console.log(taskArray.length)
+        console.log(timeArray.length)
+
+        let saveArray: string[] = [];
+        for (let i: number = 0; i < taskArray.length; i++) {
+            saveArray.push(JSON.parse(`{
+                                    "name": "${taskArray[i]}",
+                                     "time": ${timeArray[i]} 
+                                    }`));
+        }
+
+        Utils.saveProject(<string>document.querySelector(".projectTitle")?.innerHTML, saveArray);
     }
 }

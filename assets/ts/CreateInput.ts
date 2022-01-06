@@ -113,7 +113,7 @@ export class CreateInput {
         confirmIcon.title = "Confirmer";
 
         confirmIcon.addEventListener("click", ()=>{
-            let taskLine = Utils.createCreate("p", "task", formAddTask)
+            let taskLine = Utils.createCreate("p", "newTask", formAddTask)
             taskLine.innerHTML = taskInput.value;
             taskInput.value = "";
         });
@@ -135,10 +135,14 @@ export class CreateInput {
 
         button.addEventListener("click", ()=>{
             if (formAddTask.children.length > 0) {
+                let taskName: string[] = [];
                 let elementOfTaskContainer: HTMLCollection = formAddTask.children;
                 for (let i: number = 0; i < elementOfTaskContainer.length; i++) {
-                    CreateGroup.addTask(elementOfTaskContainer[i].innerHTML, clickedButton)
+                    taskName.push(elementOfTaskContainer[i].innerHTML);
+                    console.log("newTask: "+taskName)
                 }
+                console.log("JE DONNE TOUT: "+taskName)
+                CreateGroup.addTask(taskName, clickedButton, 3)
                 if (groupContainer) groupContainer.style.filter = "blur(0)";
                 container.remove();
             }
