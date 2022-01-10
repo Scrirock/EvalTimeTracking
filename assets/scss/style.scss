@@ -305,6 +305,7 @@ body {
 
       .fa-calendar-alt, .fa-stopwatch {
         color: #a1c9ff;
+        cursor: pointer;
       }
 
     }
@@ -315,4 +316,15 @@ body {
   width: 25rem;
   padding: 1rem;
   font-size: 1.5rem;
+}
+
+.newTime {
+  width: 8rem;
+  margin-right: 1rem;
+  padding: 0.2rem;
+}
+
+.validNewTime {
+  color: #49cd6d;
+  cursor: pointer;
 }

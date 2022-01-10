@@ -43,9 +43,14 @@ export class ChangePage {
             text.innerHTML = "15/15/15";
 
             let div2: HTMLElement = Utils.createCreate("div", "none", taskLine);
-            Utils.createCreate("i", "fas fa-stopwatch", div2);
+            let stopwatch: HTMLElement = Utils.createCreate("i", "fas fa-stopwatch", div2);
+            stopwatch.dataset.project = title;
             let text2: HTMLElement = Utils.createCreate("span", "littleParagraph timeSave", div2);
             text2.innerHTML = Utils.formatDuration(JSON.parse(localStorage[title])[i].time);
+
+            stopwatch.addEventListener("click", ()=>{
+                Utils.editTime(stopwatch, JSON.parse(localStorage[title])[i].time);
+            });
 
             let div3: HTMLElement = Utils.createCreate("div", "none", taskLine);
             let edit: HTMLElement = Utils.createCreate("i", "far fa-edit", div3);

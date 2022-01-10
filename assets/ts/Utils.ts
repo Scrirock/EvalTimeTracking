@@ -93,4 +93,38 @@ export class Utils {
         CreateGroup.createAddProject();
         Utils.searchProject();
     }
+
+    static editTime(element: HTMLElement, oldTime: string) {
+        let title: string = <string>element.dataset.project;
+        if (element.nextElementSibling !== null) element.nextElementSibling.remove();
+        if (element.parentElement !== null) {
+            let input: HTMLInputElement = document.createElement("input");
+            input.value = oldTime;
+            input.className = "newTime";
+            element.parentElement.append(input);
+
+            let validNewTime: HTMLButtonElement = document.createElement("button");
+            validNewTime.innerHTML = "✔";
+            validNewTime.className = "validNewTime";
+            element.parentElement.append(validNewTime);
+
+            validNewTime.addEventListener("click", ()=>{
+                if (element.parentElement !== null) {
+                    let json = JSON.parse(localStorage[title]);
+                    for (let i: number = 0; i < json.length; i++) {
+                        if (json[i].time === oldTime) {
+                            json[i].time = parseInt(input.value);
+                        }
+                    }
+                    localStorage[title] = JSON.stringify(json);
+
+                    let text2: HTMLElement = Utils.createCreate("span", "littleParagraph timeSave", element.parentElement);
+                    text2.innerHTML = Utils.formatDuration(parseInt(input.value));
+
+                    input.remove();
+                    validNewTime.remove();
+                }
+            });
+        }
+    }
 }
