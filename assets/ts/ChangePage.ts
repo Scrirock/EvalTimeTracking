@@ -39,8 +39,7 @@ export class ChangePage {
             let div1: HTMLElement = Utils.createCreate("div", "none", taskLine);
             Utils.createCreate("i", "far fa-calendar-alt", div1);
             let text: HTMLElement = Utils.createCreate("span", "littleParagraph timeSince", div1);
-            //TODO enlever l'exemple
-            text.innerHTML = "15/15/15";
+            text.innerHTML = JSON.parse(localStorage[title])[i].lastInteraction;
 
             let div2: HTMLElement = Utils.createCreate("div", "none", taskLine);
             let stopwatch: HTMLElement = Utils.createCreate("i", "fas fa-stopwatch", div2);

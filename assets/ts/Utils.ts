@@ -85,6 +85,12 @@ export class Utils {
             .join(' ');
     };
 
+    static getHoursDiffBetweenDates(dateInitial: any, dateFinal: any) {
+        return Math.floor((dateFinal - dateInitial) / (1000 * 3600));
+    }
+
+
+
     static homePage() {
         let oldContainer: HTMLElement = <HTMLElement>document.querySelector(".projectContainer");
         if (oldContainer !== null) oldContainer.remove();

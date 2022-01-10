@@ -112,9 +112,11 @@ export class CreateGroup {
                         for (let j: number = 0; j < allFixHeight[i].children.length; j++) {
                             timeTest.length > j ? true : timeTest.push(0);
                             if (allFixHeight[i].children[j].children[0].tagName === "P") {
+                                let now = new Date();
                                 taskArray.push(JSON.parse(`{
                                     "name": "${allFixHeight[i].children[j].children[0].innerHTML}",
-                                     "time": ${timeTest[j]} 
+                                    "time": ${timeTest[j]},
+                                    "lastInteraction" : "${now.getDate()} / ${now.getMonth()+1} / ${now.getFullYear()}"  
                                 }`));
 
                             }
