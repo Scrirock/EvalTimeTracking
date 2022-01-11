@@ -70,11 +70,11 @@ export class CreateGroup {
         });
 
         if (task !== null) {
-            this.addTask(task, addTaskButton, 0);
+            this.addTask(task, addTaskButton);
         }
     }
 
-    static addTask(taskName: string[], clickedButton: HTMLElement, test: number): void {
+    static addTask(taskName: string[], clickedButton: HTMLElement): void {
         let allFixHeight: NodeListOf<HTMLElement> = document.querySelectorAll(".fixHeight");
         let oldTask = document.querySelectorAll(".task");
         let taskArray: string[] = [];

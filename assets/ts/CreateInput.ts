@@ -139,10 +139,8 @@ export class CreateInput {
                 let elementOfTaskContainer: HTMLCollection = formAddTask.children;
                 for (let i: number = 0; i < elementOfTaskContainer.length; i++) {
                     taskName.push(elementOfTaskContainer[i].innerHTML);
-                    console.log("newTask: "+taskName)
                 }
-                console.log("JE DONNE TOUT: "+taskName)
-                CreateGroup.addTask(taskName, clickedButton, 3)
+                CreateGroup.addTask(taskName, clickedButton)
                 if (groupContainer) groupContainer.style.filter = "blur(0)";
                 container.remove();
             }
