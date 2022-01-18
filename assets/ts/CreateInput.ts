@@ -67,18 +67,27 @@ export class CreateInput {
         button.addEventListener("click", ()=>{
             if (projectInput.value.length > 0) {
                 let elementOfTaskContainer: HTMLCollection = formAddTask.children;
-                if (elementOfTaskContainer.length > 0) {
-                    let taskArray: string[] = [];
-                    for (let i: number = 0; i < elementOfTaskContainer.length; i++) {
-                        taskArray.push(elementOfTaskContainer[i].innerHTML);
-                    }
-                    CreateGroup.addProject(projectInput.value, taskArray);
+
+                let taskArray: string[] = [];
+                for (let i: number = 0; i < elementOfTaskContainer.length; i++) {
+                    taskArray.push(elementOfTaskContainer[i].innerHTML);
                 }
-                else {
-                    CreateGroup.addProject(projectInput.value, null);
-                }
+
+                let xhrPost = new XMLHttpRequest();
+
+                const taskData = {
+                    'name': projectInput.value,
+                    'task': taskArray,
+                    'time': 0
+                };
+
+                xhrPost.open('POST', '../../api/taskAPI.php');
+                xhrPost.setRequestHeader('Content-Type', 'application/json');
+                xhrPost.send(JSON.stringify(taskData));
+
                 groupContainer.style.filter = "blur(0)";
                 container.remove();
+                Utils.reload();
             }
             else {
                 let errorMessage: HTMLElement = Utils.createCreate("p", "errorMessage", littleSquare);
@@ -140,9 +149,22 @@ export class CreateInput {
                 for (let i: number = 0; i < elementOfTaskContainer.length; i++) {
                     taskName.push(elementOfTaskContainer[i].innerHTML);
                 }
-                CreateGroup.addTask(taskName, clickedButton)
+
+                let xhrPost = new XMLHttpRequest();
+
+                const taskData = {
+                    'taskArray': taskName,
+                    'projectName': clickedButton.dataset.project,
+                    'time': 0
+                };
+
+                xhrPost.open('POST', '../../api/taskAPI.php');
+                xhrPost.setRequestHeader('Content-Type', 'application/json');
+                xhrPost.send(JSON.stringify(taskData));
+
                 if (groupContainer) groupContainer.style.filter = "blur(0)";
                 container.remove();
+                Utils.reload();
             }
             else {
                 let errorMessage: HTMLElement = Utils.createCreate("p", "errorMessage", littleSquare);

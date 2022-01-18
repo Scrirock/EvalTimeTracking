@@ -3,15 +3,23 @@ import {Utils} from "./Utils";
 
 export class IconClick {
 
-    static deleteIcon(element: HTMLElement): void {
+    static deleteTaskIcon(element: HTMLElement, id: string, title: string): void {
         element.addEventListener("click", ()=>{
             let container: HTMLElement = <HTMLElement>element.parentElement;
             if (container) {
                 container = <HTMLElement>container.parentElement
             }
             if (container) {
-                localStorage.removeItem(<string>element.dataset.project)
-                container.remove()
+                let xhrPost = new XMLHttpRequest();
+
+                const projectData = {
+                    'delTask': id,
+                };
+
+                xhrPost.open('POST', '../../api/taskAPI.php');
+                xhrPost.setRequestHeader('Content-Type', 'application/json');
+                xhrPost.send(JSON.stringify(projectData));
+                Utils.reloadDetailed(title);
             }
         })
     }
@@ -22,10 +30,18 @@ export class IconClick {
         })
     }
 
-    static deleteTaskIcon(element: HTMLElement) {
+    static deleteIcon(element: HTMLElement) {
         element.addEventListener("click", ()=>{
-            element.parentElement?.parentElement?.remove();
-            this.reloadSave();
+            let xhrPost = new XMLHttpRequest();
+
+            const projectData = {
+                'delProject': element.dataset.project,
+            };
+
+            xhrPost.open('POST', '../../api/taskAPI.php');
+            xhrPost.setRequestHeader('Content-Type', 'application/json');
+            xhrPost.send(JSON.stringify(projectData));
+            Utils.reload();
         })
     }
 
@@ -45,38 +61,22 @@ export class IconClick {
 
             input.addEventListener("keyup", (e)=>{
                 if (e.key === "Enter") {
+                    let oldTask = task.innerHTML;
                     task.innerHTML = input.value;
                     task.style.display = "initial";
                     input.remove();
-                    this.reloadSave();
+                    let xhr = new XMLHttpRequest();
+
+                    const projectData = {
+                        'oldTask': oldTask,
+                        'newTask': input.value,
+                    };
+
+                    xhr.open('POST', '../../api/taskAPI.php');
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(projectData));
                 }
             })
         });
-    }
-
-    static reloadSave(){
-        let taskName = document.querySelectorAll(".taskName");
-        let taskArray: string[] = [];
-        for (let i: number = 0; i < taskName.length; i++) {
-            taskArray.push(taskName[i].innerHTML);
-        }
-
-        let taskTime = document.querySelectorAll(".timeSave");
-        let timeArray: string[] = [];
-        for (let i: number = 0; i < taskTime.length; i++) {
-            timeArray.push(taskTime[i].innerHTML.substring(0, taskTime[i].innerHTML.length - 1));
-        }
-        console.log(taskArray.length)
-        console.log(timeArray.length)
-
-        let saveArray: string[] = [];
-        for (let i: number = 0; i < taskArray.length; i++) {
-            saveArray.push(JSON.parse(`{
-                                    "name": "${taskArray[i]}",
-                                     "time": ${timeArray[i]} 
-                                    }`));
-        }
-
-        Utils.saveProject(<string>document.querySelector(".projectTitle")?.innerHTML, saveArray);
     }
 }

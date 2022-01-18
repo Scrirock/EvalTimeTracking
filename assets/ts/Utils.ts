@@ -1,4 +1,5 @@
 import {CreateGroup} from "./CreateGroup";
+import {ChangePage} from "./ChangePage";
 
 let timeInterval: NodeJS.Timer;
 
@@ -10,25 +11,6 @@ export class Utils {
         appendTo.append(htmlElement);
 
         return htmlElement;
-    }
-
-    static saveProject(title: string, task: any) {
-        localStorage.setItem(title, JSON.stringify(task));
-    }
-
-    static searchProject() {
-        if (localStorage !== null && localStorage.length > 0) {
-            for (let i:number = 0; i < localStorage.length; i++) {
-                let title: string = <string>localStorage.key(i);
-                let taskArray: string[] = [];
-                for (let ii: number = 0; ii < JSON.parse(localStorage[title]).length; ii++) {
-                    let json = JSON.parse(localStorage[title])[ii];
-                    let task: string = json.name;
-                    taskArray.push(task);
-                }
-                CreateGroup.addProject(title, taskArray);
-            }
-        }
     }
 
     static stopwatchClick(element: HTMLElement) {
@@ -53,19 +35,17 @@ export class Utils {
 
     static addTime(element: HTMLElement, taskName: string) {
         element.style.color = "#e24e58";
-        if (localStorage !== null) {
-            let title: string = <string>element.parentElement?.parentElement?.dataset.project;
-            let json = JSON.parse(localStorage[title]);
+        timeInterval = setInterval(()=>{
+            let xhr = new XMLHttpRequest();
 
-            for (let o:number = 0; o < json.length; o++) {
-                if (json[o].name === taskName) {
-                    timeInterval = setInterval(()=>{
-                        json[o].time += 1;
-                        localStorage[title] = JSON.stringify(json);
-                    }, 1000);
-                }
-            }
-        }
+            const projectData = {
+                'timeChangeName': taskName,
+            };
+
+            xhr.open('POST', '../../api/taskAPI.php');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(projectData));
+        }, 1000)
     }
 
     static stopTime(element: HTMLElement, taskName: string) {
@@ -89,19 +69,19 @@ export class Utils {
         return Math.floor((dateFinal - dateInitial) / (1000 * 3600));
     }
 
-
-
     static homePage() {
         let oldContainer: HTMLElement = <HTMLElement>document.querySelector(".projectContainer");
         if (oldContainer !== null) oldContainer.remove();
 
         CreateGroup.createGroupContainer();
         CreateGroup.createAddProject();
-        Utils.searchProject();
+        this.reload();
     }
 
     static editTime(element: HTMLElement, oldTime: string) {
-        let title: string = <string>element.dataset.project;
+        let taskName: string = <string>element.dataset.task;
+        let taskId: string = <string>element.dataset.taskId
+        let projectName: string = <string>element.dataset.project;
         if (element.nextElementSibling !== null) element.nextElementSibling.remove();
         if (element.parentElement !== null) {
             let input: HTMLInputElement = document.createElement("input");
@@ -116,13 +96,18 @@ export class Utils {
 
             validNewTime.addEventListener("click", ()=>{
                 if (element.parentElement !== null) {
-                    let json = JSON.parse(localStorage[title]);
-                    for (let i: number = 0; i < json.length; i++) {
-                        if (json[i].time === oldTime) {
-                            json[i].time = parseInt(input.value);
-                        }
-                    }
-                    localStorage[title] = JSON.stringify(json);
+                    let xhr = new XMLHttpRequest();
+
+                    const projectData = {
+                        'editTime': taskName,
+                        'projectName': projectName,
+                        'newTime': input.value,
+                        'taskId': taskId
+                    };
+
+                    xhr.open('POST', '../../api/taskAPI.php');
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(projectData));
 
                     let text2: HTMLElement = Utils.createCreate("span", "littleParagraph timeSave", element.parentElement);
                     text2.innerHTML = Utils.formatDuration(parseInt(input.value));
@@ -132,5 +117,19 @@ export class Utils {
                 }
             });
         }
+    }
+
+    static reload() {
+        let group = document.querySelectorAll(".group:not(.group:first-child)");
+        for (let i: number = 0; i < group.length; i++) {
+            group[i].remove();
+        }
+        CreateGroup.getProject();
+    }
+
+    static reloadDetailed(title: string) {
+        let oldContainer: HTMLElement = <HTMLElement>document.querySelector(".projectContainer");
+        if (oldContainer !== null) oldContainer.remove();
+        ChangePage.detailedProject(title);
     }
 }

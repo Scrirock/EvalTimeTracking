@@ -15,9 +15,6 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, 'public'),
       filename: "build/js/[name].js",
       publicPath: '/',
-      clean: {
-        keep: /index\.html|index\.php/,
-      }
     },
     resolve: {
       extensions: [ '.ts', '.js' ],

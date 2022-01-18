@@ -1,0 +1,12 @@
+{
+    "name": "scri/eval-time-tracking",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Scri\\EvalTimeTracking\\": "src/"
+        }
+    },
+    "require": {
+        "gabordemooij/redbean": "^5.7"
+    }
+}
