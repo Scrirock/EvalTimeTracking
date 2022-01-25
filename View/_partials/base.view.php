@@ -10,6 +10,21 @@
 </head>
 <body>
 
+    <nav>
+        <button class="button-51" role="button">
+            <a href="/?controller=connexion">
+                <?php
+                    if (isset($_SESSION['username'])) {
+                        echo "Se déconnecter";
+                    }
+                    else {
+                        echo "Se connecter";
+                    }
+                ?>
+            </a>
+        </button>
+    </nav>
+
     <?= $html ?>
 
     <script src="./build/js/app.js"></script>

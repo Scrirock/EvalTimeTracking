@@ -8,18 +8,23 @@ use Scri\EvalTimeTracking\Model\Entity\Project;
 class ProjectManager {
 
     public function addProject(Project $projectObject){
-        R::setup("mysql:host=localhost;dbname=timetracking;charset=utf8", 'root', '');
-
+        $fkUser = (new UserManager())->getUserByName($projectObject->getFkUser());
         $project = R::dispense('project');
         $project->name = $projectObject->getName();
+        $project->fk_user = $fkUser;
         R::store($project);
-
     }
 
     public function getProjects(): array {
         R::setup("mysql:host=localhost;dbname=timetracking;charset=utf8", 'root', '');
 
-        return R::findAll('project');
+        return R::getAll("SELECT  p.id as projectId,
+                                      p.name,
+                                      u.id as userID,
+                                      u.username
+                                    FROM project as p
+                                INNER JOIN user as u 
+                                    ON p.fk_user = u.id");
     }
 
     public function getProjectId($name): string{

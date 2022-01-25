@@ -5,15 +5,18 @@ namespace Scri\EvalTimeTracking\Model\Entity;
 class Project{
 
     private ?int $id;
+    private string $fkUser;
     private string $name;
 
     /**
      * Project constructor.
-     * @param int|null $id
      * @param string $name
+     * @param string $fkUser
+     * @param int|null $id
      */
-    public function __construct(string $name, ?int $id = null) {
+    public function __construct(string $name, string $fkUser, ?int $id = null) {
         $this->id = $id;
+        $this->fkUser = $fkUser;
         $this->name = $name;
     }
 
@@ -40,4 +43,19 @@ class Project{
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getFkUser(): string {
+        return $this->fkUser;
+    }
+
+    /**
+     * @param string $fkUser
+     * @return Project
+     */
+    public function setFkUser(string $fkUser): Project {
+        $this->fkUser = $fkUser;
+        return $this;
+    }
 }

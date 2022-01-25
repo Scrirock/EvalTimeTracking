@@ -11,7 +11,7 @@ class TaskManager {
     public function getTasks(): array {
         R::setup("mysql:host=localhost;dbname=timetracking;charset=utf8", 'root', '');
 
-        $task = R::getAll("SELECT t.id as taskId,
+        return R::getAll("SELECT t.id as taskId,
                                       t.fk_project,
                                       t.name as taskName,
                                       t.time,
@@ -20,8 +20,7 @@ class TaskManager {
                                       p.name as projectName
                                     FROM task as t
                                 INNER JOIN project as p
-                                ON t.fk_project = p.id");
-        return $task;
+                                    ON t.fk_project = p.id");
     }
 
     public function getOneTask($taskName): ?OODBBean{

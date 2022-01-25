@@ -13,6 +13,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
 $taskManager = new TaskManager();
 $projectManager = new ProjectManager();
 
@@ -42,7 +44,9 @@ switch($_SERVER['REQUEST_METHOD']) {
             }
         }
         else if (isset($data->name)) {
-            $projectManager->addProject(new Project($data->name));
+            $test = new Project($data->name, $_SESSION['username']);
+            $projectManager->addProject($test);
+            var_dump($test);
             $projectId = $projectManager->getProjectId($data->name);
 
             if (count($data->task) > 0) {
@@ -97,7 +101,8 @@ function getProjects(ProjectManager $manager): string {
     foreach($data as $project) {
         $response[] = [
             'projectName' => $project['name'],
-            'projectId' => $project['id'],
+            'projectId' => $project['projectId'],
+            'username' => $project['username']
         ];
     }
 
